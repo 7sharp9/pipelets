@@ -25,13 +25,10 @@ type pipelet<'a,'b>(name:string, transform, router: seq<IPipeletInput<'b>> * 'b 
             try
                 match !routes with
                 | [] ->()
-                | _ as routes -> 
-                    msg |> transform |> dorouting <| routes
-                return! loop()
+                | _ as routes -> msg |> transform |> dorouting <| routes
             with //force loop resume on error
-            | ex -> 
-                Console.WriteLine(sprintf "%A Error: %A" DateTime.Now.TimeOfDay ex.Message )
-                return! loop()
+            | ex -> Console.WriteLine(sprintf "%A Error: %A" DateTime.Now.TimeOfDay ex.Message )
+            return! loop()
             }
         loop())
 
